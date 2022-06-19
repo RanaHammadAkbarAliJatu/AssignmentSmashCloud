@@ -59,7 +59,6 @@ export default function App() {
     if (HOLIDAYS_ARRAY.includes(findHoliday)) {
       totalDiscount = ((50 / 100) * subTotal)
     }
-    alert(findHoliday)
     totalCost = subTotal - totalDiscount
     setTotalCostTrip({
       baseRate: 20,
