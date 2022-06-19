@@ -1,6 +1,6 @@
 import React from "react";
 import { points } from "./points";
-import dropDown from './dropDown'
+
 const BASE_RATE = 20;
 const CHARGE_PER_KILOMETER = 0.2;
 const INCREMENT_CHARGE = 0.5;
@@ -48,16 +48,15 @@ export default function App() {
     setExitValues((prev) => ({
       ...prev,
       [name]:
-        name == "numberPlate" ? value.match("^[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}$") : value,
+        name == "numberPlate" ? value.replace(/([a-z])(\d)/i, "$1-$2") : value,
     }));
   };
   const handleChange = (e) => {
-    const expression = /^[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}$/;
     const { name, value } = e.target;
     setEntryValues((prev) => ({
       ...prev,
       [name]:
-        name == "numberPlate" ? expression.test(value) : value,
+        name == "numberPlate" ? value.replace(/([a-z])(\d)/i, "$1-$2") : value,
     }));
   };
 
@@ -85,7 +84,7 @@ export default function App() {
       ) {
         const distance = Math.abs(
           points[exitValues.interchangeName] -
-          points[entryValues.interchangeName]
+            points[entryValues.interchangeName]
         );
         if (new Date().getDay() == 6 || new Date().getDay() == 0) {
           totalCost = distance * INCREMENT_CHARGE;
@@ -141,8 +140,6 @@ export default function App() {
           style={{ marginTop: 20, height: 20, width: 200, textAlign: "center" }}
           placeholder="Number-Plate"
           onChange={handleChange}
-          pattern={`"/^[A-Z]{2}-\d{4}-[A-Z]{2}/g"/`}
-
           maxLength={7}
         />
         <input
@@ -180,7 +177,6 @@ export default function App() {
         />
         <input
           name="numberPlate"
-          pattern={`"/^[A-Z]{2}-\d{4}-[A-Z]{2}/g"/`}
           value={exitValues.numberPlate}
           style={{ marginTop: 20, height: 20, width: 200, textAlign: "center" }}
           placeholder="Number-Plate"
@@ -217,13 +213,11 @@ export default function App() {
         BreakDown:
         {Math.abs(
           points[exitValues.interchangeName] -
-          points[entryValues.interchangeName]
+            points[entryValues.interchangeName]
         )}{" "}
       </text>
       <text>Sub Total : {beforeDiscount}</text>
       <text>Discount/other : {discountGiven}</text>
-      <dropDown 
-      />
     </div>
   );
 }
