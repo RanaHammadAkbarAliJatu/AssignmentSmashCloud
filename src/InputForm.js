@@ -15,7 +15,7 @@ const InputForm = (props) => {
     setEntryValues((prev) => ({
       ...prev,
       [name]:
-        name == "numberPlate" ? value.replace(/([a-z])(\d)/i, "$1-$2") : value,
+        name == "numberPlate" ? value.replace(/([a-z]){2}(\d)/i, "$1-$2") : value,
     }));
     if (name == "numberPlate") {
       setEntryValues((prev) => ({
@@ -27,8 +27,16 @@ const InputForm = (props) => {
 
   };
   const handleSubmit = () => {
-
-    getVehicle(entryValues)
+    
+    if (!entryValues.interchangeName) {
+      alert("please enter interchange Name")
+    } else if (!entryValues.numberPlate) {
+      alert("please enter number Plate")
+    } else if (!entryValues.dateTime) {
+      alert("please enter Date")
+    } else {
+        getVehicle(entryValues)
+    }
 
   };
   return (
